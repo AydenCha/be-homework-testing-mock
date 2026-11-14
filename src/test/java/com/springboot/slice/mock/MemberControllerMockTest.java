@@ -5,13 +5,13 @@ import com.springboot.member.entity.Member;
 import com.springboot.member.mapper.MemberMapper;
 import com.springboot.member.service.MemberService;
 import com.springboot.stamp.Stamp;
-import com.google.gson.Gson;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -29,9 +29,9 @@ class MemberControllerMockTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private Gson gson;
+    private ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private MemberService memberService;
 
     @Autowired
@@ -52,7 +52,7 @@ class MemberControllerMockTest {
         // stubbing
         given(memberService.createMember(Mockito.any(Member.class))).willReturn(member);
 
-        String content = gson.toJson(post);
+        String content = objectMapper.writeValueAsString(post);
 
 
         // when
